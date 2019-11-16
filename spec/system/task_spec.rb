@@ -23,6 +23,7 @@ RSpec.describe Task, type: :system do
         fill_in 'タスク詳細', with: 'specによるテスト演習'
         click_button '登録'
         expect(page).to have_content 'specタスク'
+        expect(page).to have_content 'specによるテスト演習'
       end
     end
   end
