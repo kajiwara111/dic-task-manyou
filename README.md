@@ -4,7 +4,7 @@
 
 |カラム名|データ型|Comment|
 |---|---|---|
-|id|integer|PK|
+|id|integer|PK, NotNull|
 |name|string|ユーザー名、NotNull|
 |email|string|ユーザーメールアドレス。NotNull|
 |password_digest|text|ハッシュ化されたパスワード情報、NotNull|
