@@ -1,24 +1,28 @@
-# README
+# テーブル定義
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## usersテーブル
 
-Things you may want to cover:
+|カラム名|データ型|Comment|
+|---|---|---|---|
+|id|integer|主キー|
+|name|string|ユーザー名、NotNull|
+|email|string|ユーザーメールアドレス。NotNull|
+|password_digest|text|ハッシュ化されたパスワード情報、NotNull|
 
-* Ruby version
+## tasksテーブル
 
-* System dependencies
+|カラム名|データ型|Comment|
+|---|---|---|---|
+|id|integer|主キー, NotNull|
+|user_id|integer|FK, NotNull|
+|task_name|string|タスク名, NotNull|
+|task_content|text|タスク詳細, NotNull|
 
-* Configuration
 
-* Database creation
+## labelsテーブル
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+|カラム名|データ型|Comment|
+|---|---|---|---|
+|id|integer|主キー, NotNull|
+|task_id|integer|FK, NotNull|
+|label|string|タスクラベル, NotNull|
