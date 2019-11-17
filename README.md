@@ -3,7 +3,7 @@
 ## usersテーブル
 
 |カラム名|データ型|Comment|
-|---|---|---|---|
+|---|---|---|
 |id|integer|主キー|
 |name|string|ユーザー名、NotNull|
 |email|string|ユーザーメールアドレス。NotNull|
@@ -12,7 +12,7 @@
 ## tasksテーブル
 
 |カラム名|データ型|Comment|
-|---|---|---|---|
+|---|---|---|
 |id|integer|主キー, NotNull|
 |user_id|integer|FK, NotNull|
 |task_name|string|タスク名, NotNull|
@@ -22,7 +22,7 @@
 ## labelsテーブル
 
 |カラム名|データ型|Comment|
-|---|---|---|---|
+|---|---|---|
 |id|integer|主キー, NotNull|
 |task_id|integer|FK, NotNull|
 |label|string|タスクラベル, NotNull|
