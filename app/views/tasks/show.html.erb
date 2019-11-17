@@ -1,17 +1,17 @@
-<h1>タスクの詳細</h1>
+<h1><%= t('view.task_detail') %></h1>
 <table>
   <tr>
-    <td>タスク名</td>
+    <td><%= t('view.task_name') %></td>
     <td><%= @task.task_name %></td>
   </tr>
   <tr>
-    <td>タスク詳細</td>
+    <td><%= t('view.task_detail') %></td>
     <td><%= @task.task_content %></td>
   </tr>
   <tr>
-    <td>登録日時</td>
+    <td><%= t('view.registerd_datetime') %></td>
     <td><%= @task.created_at %></td>
   </tr>
 </table>
-<%= link_to '編集', edit_task_path(@task.id) %> 
-<%= link_to '削除', task_path(@task.id), method: :delete, data: { confirm: '本当に削除して良いですか？'} %> 
+<%= link_to t('view.edit'), edit_task_path(@task.id) %> 
+<%= link_to t('view.delete'), task_path(@task.id), method: :delete, data: { confirm: t('view.delete_confirm')} %> 

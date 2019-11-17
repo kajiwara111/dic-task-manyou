@@ -1,20 +1,20 @@
-<h1>タスク一覧</h1>
+<h1><%= t('view.task_overview') %></h1>
 <table>
   <th>
-    タスク名
+    <%= t('view.task_name') %>
   </th>
   <th>
-    登録日時
+    <%= t('view.registerd_datetime') %>
   </th>
   <% @tasks.each do |task| %>
     <tr>
       <td><%= task.task_name %></td>
       <td><%= task.created_at %></td>
-      <td><%= link_to '詳細', task_path(task.id) %></td>
-      <td><%= link_to '削除', task_path(task.id), method: :delete, data: { confirm: '本当に削除して良いですか？'} %></td>
+      <td><%= link_to t('view.detail'), task_path(task.id) %></td>
+      <td><%= link_to t('view.delete'), task_path(task.id), method: :delete, data: { confirm: t('view.delete_confirm')} %></td>
   </tr>
   <% end %>
 </table>
 <div>
-  <%= link_to 'タスク新規登録', new_task_path %>
+  <%= link_to t('view.new_task_register'), new_task_path %>
 </div>
