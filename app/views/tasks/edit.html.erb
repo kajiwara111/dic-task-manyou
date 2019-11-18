@@ -1,5 +1,6 @@
 <h1><%= t('view.task_edit') %></h1>
 <%= form_with(model: @task, local: true) do |f| %>
+  <%= render 'layouts/error_messages', model: f.object %>
   <div class="field">
     <%= f.label :task_name %><br>
     <%= f.text_field :task_name %><br>
