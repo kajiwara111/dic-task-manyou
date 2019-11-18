@@ -1,24 +1,28 @@
-<h1><%= t('view.task_overview') %></h1>
-<table class="task_table">
-  <th>
-    <%= t('view.task_name') %>
-  </th>
-  <th>
-    <%= t('view.registerd_datetime') %>
-  </th>
-  <th>
-    <%= t('view.deadline') %>
-  </th>
-  <% @tasks.each.with_index(1) do |task, index| %>
-    <tr class="task_list" id=<%= "task_no" + index.to_s %> >
-      <td><%= task.task_name %></td>
-      <td><%= task.created_at.strftime('%Y/%m/%d %H:%M') %></td>
-      <td><%= task.deadline %></td>
-      <td><%= link_to t('view.detail'), task_path(task.id) %></td>
-      <td><%= link_to t('view.delete'), task_path(task.id), method: :delete, data: { confirm: t('view.delete_confirm')} %></td>
-    </tr>
-  <% end %>
-</table>
-<div>
-  <%= link_to t('view.new_task_register'), new_task_path %>
+<div class="container">
+  <h2><%= t('view.task_overview') %></h1>
+  <table class="table table-striped col-md-10">
+    <th class="col-md-4">
+      <%= t('view.task_name') %>
+    </th>
+    <th class="col-md-2">
+      <%= t('view.registerd_datetime') %>
+    </th>
+    <th class="col-md-2">
+      <%= t('view.deadline') %>
+    </th>
+    <th class="col-md-1"></th>
+    <th class="col-md-1"></th>
+    <% @tasks.each.with_index(1) do |task, index| %>
+      <tr class="task_list" id=<%= "task_no" + index.to_s %> >
+        <td><%= task.task_name %></td>
+        <td><%= task.created_at.strftime('%Y/%m/%d %H:%M') %></td>
+        <td><%= task.deadline %></td>
+        <td><%= link_to t('view.detail'), task_path(task.id), class: 'btn btn-default' %></td>
+        <td><%= link_to t('view.delete'), task_path(task.id), method: :delete, data: { confirm: t('view.delete_confirm')}, class: 'btn btn-default' %></td>
+      </tr>
+    <% end %>
+  </table>
+  <div>
+    <%= link_to t('view.new_task_register'), new_task_path, class: 'btn btn-default' %>
+  </div>
 </div>

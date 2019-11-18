@@ -1,17 +1,23 @@
-<h1><%= t('view.task_detail') %></h1>
-<table>
-  <tr>
-    <td><%= t('view.task_name') %></td>
-    <td><%= @task.task_name %></td>
-  </tr>
-  <tr>
-    <td><%= t('view.task_detail') %></td>
-    <td><%= @task.task_content %></td>
-  </tr>
-  <tr>
-    <td><%= t('view.registerd_datetime') %></td>
-    <td><%= @task.created_at %></td>
-  </tr>
-</table>
-<%= link_to t('view.edit'), edit_task_path(@task.id) %> 
-<%= link_to t('view.delete'), task_path(@task.id), method: :delete, data: { confirm: t('view.delete_confirm')} %> 
+<div class="container">
+  <h3><%= t('view.task_detail') %></h1>
+  <table class="table table-bordered col-md-8">
+    <tr>
+      <th class="col-md-2"><%= t('view.task_name') %></td>
+      <td class="col-md-6"><%= @task.task_name %></td>
+    </tr>
+    <tr>
+      <th class="col-md-2"><%= t('view.task_detail') %></td>
+      <td class="col-md-6"><%= @task.task_content %></td>
+    </tr>
+    <tr>
+      <th class="col-md-2"><%= t('view.registerd_datetime') %></td>
+      <td class="col-md-6"><%= @task.created_at.strftime('%Y/%m/%d %H:%M') %></td>
+    </tr>
+    <tr>
+      <th class="col-md-2"><%= t('view.deadline') %></td>
+      <td class="col-md-6"><%= @task.deadline %></td>
+    </tr>
+  </table>
+  <%= link_to t('view.edit'), edit_task_path(@task.id), class: 'btn btn-default' %> 
+  <%= link_to t('view.delete'), task_path(@task.id), method: :delete, data: { confirm: t('view.delete_confirm')}, class: 'btn btn-default' %>
+</div>

@@ -13,7 +13,10 @@ ja:
     delete_confirm: 本当に削除してよいですか？
     task_edit: タスクの編集
     update: 更新
-    deadline: 終了期限 
+    deadline: 終了期限
+    show_link: 詳細リンク
+    delete_link: タスク削除
+    update: 更新
   activerecord:
     errors:
       messages:
