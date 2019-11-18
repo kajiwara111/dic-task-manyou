@@ -6,6 +6,13 @@
     <%= f.text_field :task_name %><br>
     <%= f.label :task_content %><br>
     <%= f.text_area :task_content %><br>
+    <%= f.label :deadline %><br>
+    <div class='input-group date datetimepicker'>
+      <%= f.text_field :deadline, class: 'form-control', placeholder: 'YYYY/MM/DD hh:mm' %><br>
+      <span class="input-group-addon">
+        <span class="fa fa-calendar"></span>
+      </span>
+    </div>
   </div>
   <div>
     <%= f.submit t('view.register') %>

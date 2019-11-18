@@ -6,10 +6,14 @@
   <th>
     <%= t('view.registerd_datetime') %>
   </th>
+  <th>
+    <%= t('view.deadline') %>
+  </th>
   <% @tasks.each.with_index(1) do |task, index| %>
     <tr class="task_list" id=<%= "task_no" + index.to_s %> >
       <td><%= task.task_name %></td>
-      <td><%= task.created_at %></td>
+      <td><%= task.created_at.strftime('%Y/%m/%d %H:%M') %></td>
+      <td><%= task.deadline %></td>
       <td><%= link_to t('view.detail'), task_path(task.id) %></td>
       <td><%= link_to t('view.delete'), task_path(task.id), method: :delete, data: { confirm: t('view.delete_confirm')} %></td>
     </tr>
