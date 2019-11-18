@@ -1,4 +1,4 @@
-<h1>t('view.new_task_register')</h1>
+<h1><%= t('view.new_task_register') %></h1>
 <%= form_with(model: @task, local: true) do |f| %>
   <div class="field">
     <%= f.label :task_name %><br>

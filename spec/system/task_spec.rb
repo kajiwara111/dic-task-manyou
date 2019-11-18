@@ -2,7 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Task, type: :system do
   before do
-    FactoryBot.create(:task, task_name: 'task', task_content: 'rspec test')
+    #FactoryBot.create(:task, task_name: 'task', task_content: 'rspec test')
+    FactoryBot.create(:task)
+    FactoryBot.create(:second_task)
   end
 
   describe 'タスク一覧画面' do
@@ -19,7 +21,7 @@ RSpec.describe Task, type: :system do
     context '必要項目を入力して、createボタンを押した場合' do
       it 'データが保存されること' do
         visit new_task_path
-        fill_in 'タスク名称', with: 'specタスク'
+        fill_in 'タスク名', with: 'specタスク'
         fill_in 'タスク詳細', with: 'specによるテスト演習'
         click_button '登録'
         expect(page).to have_content 'specタスク'
@@ -33,10 +35,21 @@ RSpec.describe Task, type: :system do
       it '該当タスクの内容が表示されたページに遷移すること' do
         #FactoryBot.create(:task, task_name: 'task', task_content: 'rspec test')
         visit tasks_path
-        click_on '詳細'
-        expect(page).to have_content 'task'
-        expect(page).to have_content 'rspec test'
+        #click_on '詳細'
+        within('#task_no1') do
+          click_on '詳細'
+        end
+        expect(page).to have_content 'task2'
+        expect(page).to have_content 'task_content2'
       end
+    end
+  end
+
+  describe 'タスク一覧画面における登録日時降順ソート' do
+    it 'タスク登録日時の大小関係が正しいこと' do
+      visit tasks_path
+      tasks = all('.task_list')
+      expect(tasks[0]).to have_content 'task2'
     end
   end
 end

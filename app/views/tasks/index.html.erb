@@ -1,18 +1,18 @@
 <h1><%= t('view.task_overview') %></h1>
-<table>
+<table class="task_table">
   <th>
     <%= t('view.task_name') %>
   </th>
   <th>
     <%= t('view.registerd_datetime') %>
   </th>
-  <% @tasks.each do |task| %>
-    <tr>
+  <% @tasks.each.with_index(1) do |task, index| %>
+    <tr class="task_list" id=<%= "task_no" + index.to_s %> >
       <td><%= task.task_name %></td>
       <td><%= task.created_at %></td>
       <td><%= link_to t('view.detail'), task_path(task.id) %></td>
       <td><%= link_to t('view.delete'), task_path(task.id), method: :delete, data: { confirm: t('view.delete_confirm')} %></td>
-  </tr>
+    </tr>
   <% end %>
 </table>
 <div>
