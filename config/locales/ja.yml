@@ -12,7 +12,8 @@ ja:
     task_detail: タスク詳細
     delete_confirm: 本当に削除してよいですか？
     task_edit: タスクの編集
-    update: 更新 
+    update: 更新
+    deadline: 終了期限 
   activerecord:
     errors:
       messages:
