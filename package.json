@@ -1,5 +1,8 @@
 {
   "name": "dic-manyou-task",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "bootstrap": "3",
+    "jquery": "^3.4.1"
+  }
 }
