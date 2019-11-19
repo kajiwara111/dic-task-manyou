@@ -23,9 +23,10 @@ RSpec.describe Task, type: :system do
         visit new_task_path
         fill_in 'タスク名', with: 'specタスク'
         fill_in 'タスク詳細', with: 'specによるテスト演習'
+        fill_in '期限', with: '2019/12/10 10:00'
         click_button '登録'
         expect(page).to have_content 'specタスク'
-        expect(page).to have_content 'specによるテスト演習'
+        expect(page).to have_content '2019/12/10 10:00'
       end
     end
   end
@@ -50,6 +51,15 @@ RSpec.describe Task, type: :system do
       visit tasks_path
       tasks = all('.task_list')
       expect(tasks[0]).to have_content 'task2'
+    end
+  end
+
+  describe '終了期限によるソート機能検証' do
+    it '終了期限でソート（昇順）した場合の表示順序が正しいこと' do
+      visit tasks_path
+      click_on '終了期限でソートする'
+      tasks = all('.task_list')
+      expect(tasks[0]).to have_content '2019/12/18 18:00'
     end
   end
 end

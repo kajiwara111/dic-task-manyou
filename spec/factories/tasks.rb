@@ -3,6 +3,7 @@ FactoryBot.define do
     task_name { 'task1' }
     task_content { 'task_content1' }
     created_at { Time.now }
+    deadline {'2019/12/18 18:00'}
   end
 
   # 作成するテストデータの名前を「second_task」とします
@@ -11,5 +12,6 @@ FactoryBot.define do
     task_name { 'task2' }
     task_content { 'task_content2' }
     created_at { Time.now + 1.days }
+    deadline {'2019/12/20 10:00'}
   end 
 end

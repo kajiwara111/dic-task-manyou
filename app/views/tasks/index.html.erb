@@ -1,5 +1,6 @@
 <div class="container">
   <h2><%= t('view.task_overview') %></h1>
+  <%= link_to "終了期限でソートする", tasks_path(sort_expired: "true"), class: 'btn btn-default' %>
   <table class="table table-striped col-md-10">
     <th class="col-md-4">
       <%= t('view.task_name') %>
