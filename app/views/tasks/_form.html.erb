@@ -14,7 +14,8 @@
     </div>
     <div>
       <%= f.label :state %><br>
-      <%= f.select :state, Task.statuses.keys.to_a, class: 'form-control' %></td>
+      <% #t()の中身はja.ymlで定義した階層 %>
+      <%= f.select :state, Task.states.keys.map {|k| [I18n.t("enums.task.state.#{k}"), k]}, class: 'form-control' %></td>
     </div>
     <% action_name == 'edit' ? btn_str = t('view.update') : btn_str = t('view.register') %>
     <div>

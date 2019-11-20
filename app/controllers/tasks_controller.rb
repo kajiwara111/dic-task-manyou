@@ -2,7 +2,11 @@ class TasksController < ApplicationController
   before_action :set_params, only: %i[show edit destroy update]
 
   def index
-    if params[:sort_expired]
+    #検索機能はリファクタしたい。２変数中のどちらかが空欄のときの処理をもっとスマートに書きたい。
+    @q = Task.ransack(params[:q]) #この記述がないとviewで@qが未定義エラーでる
+    if params[:q]
+      @tasks = @q.result(distinct: true)
+    elsif params[:sort_expired]
       @tasks = Task.all.order(deadline: 'ASC')
     else
       @tasks = Task.all.order(id: 'DESC')

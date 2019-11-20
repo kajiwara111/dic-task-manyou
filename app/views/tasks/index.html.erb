@@ -1,5 +1,17 @@
 <div class="container">
   <h2><%= t('view.task_overview') %></h1>
+  <div class="form-group">
+    <%= search_form_for @q do |f| %>
+      <%= f.label :task_name_cont %>
+      <%= f.search_field :task_name_cont, class: "form-control" %>
+      <%= f.label :state %>
+      <% #= f.collection_select :state_eq, Task.select(:state).distinct, :id, :state_i18n, include_blank: '指定なし', class: "form-control" %>
+      <% #= f.select :state, Task.states.keys.map {|k| [I18n.t("enums.task.state.#{k}"), k]}, class: 'form-control' %>
+      <% #= 下記注意！ _eqというマッチャーを忘れてstateが検索対象にカウントされなかった %>
+      <%= f.select :state_eq, Task.states.map{|k, v| [Task.states_i18n[k], v]}, include_blank: '指定なし', class: 'form-control' %>
+      <%= f.submit %>
+    <% end %>
+  </div>
   <%= link_to t("view.deadline_sort"), tasks_path(sort_expired: "true"), class: 'btn btn-default' %>
   <table class="table table-striped col-md-10">
     <th class="col-md-4">
@@ -21,7 +33,7 @@
         <td><%= task.task_name %></td>
         <td><%= task.created_at.strftime('%Y/%m/%d %H:%M') %></td>
         <td><%= task.deadline %></td>
-        <td><%= Task.statuses.keys[task.state] %></td>
+        <td><%= task.state_i18n %></td>
         <td><%= link_to t('view.detail'), task_path(task.id), class: 'btn btn-default' %></td>
         <td><%= link_to t('view.delete'), task_path(task.id), method: :delete, data: { confirm: t('view.delete_confirm')}, class: 'btn btn-default' %></td>
       </tr>
