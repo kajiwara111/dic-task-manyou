@@ -17,6 +17,20 @@ ja:
     show_link: 詳細リンク
     delete_link: タスク削除
     update: 更新
+    state: ステータス
+    deadline_sort: 終了期限で並び替える
+    not_yet_started: 未着手
+    in_progress: 着手中
+    finished: 完了
+
+  enums:
+    task:
+      state:
+        not_yet_started: 未着手
+        in_progress: 着手中
+        finished: 完了
+
+
   activerecord:
     errors:
       messages:
