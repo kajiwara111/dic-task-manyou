@@ -13,14 +13,14 @@
     <% end %>
   </div>
   <div class="form-group">
-  <% #モデルに紐づかずソートに関するパラメータだけを送るform %>
-  <%= form_with(url: tasks_path, method: :get, local: true) do |form| %>
-    <%= form.radio_button :sort_type, 1 %>
-    <%= form.label :deadline, t("view.sort_type_1"), {value: :deadline, style: "display: inline-block;"} %>
-    <%= form.radio_button :sort_type, 2 %>
-    <%= form.label :priority, t("view.sort_type_2"), {value: :priority, style: "display: inline-block;"} %>
-    <%= form.submit t("view.do_sort") %>
-  <% end %>
+    <% #モデルに紐づかずソートに関するパラメータだけを送るform %>
+    <%= form_with(url: tasks_path, method: :get, local: true) do |form| %>
+      <%= form.radio_button :sort_type, 1, id: 'sort_type_1' %>
+      <%= form.label :deadline, t("view.sort_type_1"), {value: :deadline, style: "display: inline-block;"} %>
+      <%= form.radio_button :sort_type, 2, id: "sort_type_2" %>
+      <%= form.label :priority, t("view.sort_type_2"), {value: :priority, style: "display: inline-block;"} %>
+      <%= form.submit t("view.do_sort") %>
+    <% end %>
   </div>
   <% #= link_to t("view.deadline_sort"), tasks_path(sort_expired: "true"), class: 'btn btn-default' %>
   <% #= link_to t("view.priority_sort"), tasks_path(sort_expired: "true"), class: 'btn btn-default' %>
