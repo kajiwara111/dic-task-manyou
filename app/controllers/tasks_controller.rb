@@ -5,10 +5,12 @@ class TasksController < ApplicationController
     @q = Task.ransack(params[:q]) #この記述がないとviewで@qが未定義エラーでる
     if params[:q]
       @tasks = @q.result(distinct: true)
-    elsif params[:sort_expired]
+    elsif params[:sort_type] == "1"
       @tasks = Task.all.order(deadline: 'ASC')
+    elsif params[:sort_type] == "2"
+      @tasks = Task.all.order(priority: 'DESC')
     else
-      @tasks = Task.all.order(id: 'DESC')
+      @tasks = Task.all.order(created_at: 'DESC')
     end
   end
   
@@ -49,7 +51,14 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:task_name, :task_content, :deadline, :state)
+    params
+      .require(:task).permit(
+        :task_name,
+        :task_content,
+        :deadline,
+        :state,
+        :priority
+    )
   end
 
   def set_params

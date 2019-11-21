@@ -12,8 +12,19 @@
       <%= f.submit %>
     <% end %>
   </div>
-  <%= link_to t("view.deadline_sort"), tasks_path(sort_expired: "true"), class: 'btn btn-default' %>
-  <table class="table table-striped col-md-10">
+  <div class="form-group">
+  <% #モデルに紐づかずソートに関するパラメータだけを送るform %>
+  <%= form_with(url: tasks_path, method: :get, local: true) do |form| %>
+    <%= form.radio_button :sort_type, 1 %>
+    <%= form.label :deadline, t("view.sort_type_1"), {value: :deadline, style: "display: inline-block;"} %>
+    <%= form.radio_button :sort_type, 2 %>
+    <%= form.label :priority, t("view.sort_type_2"), {value: :priority, style: "display: inline-block;"} %>
+    <%= form.submit t("view.do_sort") %>
+  <% end %>
+  </div>
+  <% #= link_to t("view.deadline_sort"), tasks_path(sort_expired: "true"), class: 'btn btn-default' %>
+  <% #= link_to t("view.priority_sort"), tasks_path(sort_expired: "true"), class: 'btn btn-default' %>
+  <table class="table table-striped col-md-11">
     <th class="col-md-4">
       <%= t('view.task_name') %>
     </th>
@@ -26,6 +37,9 @@
     <th class="col-md-2">
       <%= t('view.state') %>
     </th>
+    <th class="col-md-1">
+      <%= t('view.priority') %>
+    </th>
     <th class="col-md-1"></th>
     <th class="col-md-1"></th>
     <% @tasks.each.with_index(1) do |task, index| %>
@@ -34,6 +48,7 @@
         <td><%= task.created_at.strftime('%Y/%m/%d %H:%M') %></td>
         <td><%= task.deadline %></td>
         <td><%= task.state_i18n %></td>
+        <td><%= task.priority_i18n %></td>
         <td><%= link_to t('view.detail'), task_path(task.id), class: 'btn btn-default' %></td>
         <td><%= link_to t('view.delete'), task_path(task.id), method: :delete, data: { confirm: t('view.delete_confirm')}, class: 'btn btn-default' %></td>
       </tr>

@@ -13,11 +13,13 @@
   deadline = Faker::Time.between(from: DateTime.now + 1, to: DateTime.now + 30).strftime("%Y/%m/%d %H:%M")
   created_at = Faker::Time.between(from: DateTime.now - 10, to: DateTime.now)
   state = rand(0..2)
+  priority = rand(0..2)
   Task.create!(task_name:  task_name,
                task_content: task_content,
                deadline: deadline,
                created_at: created_at,
-               state: state
+               state: state,
+               priority: priority
                )
 end
 
