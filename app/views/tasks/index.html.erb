@@ -22,6 +22,11 @@
       <%= form.submit t("view.do_sort") %>
     <% end %>
   </div>
+  <div>
+      <%= paginate @tasks %>
+  </div>
+  <p><%= page_entries_info @tasks %></p>
+
   <% #= link_to t("view.deadline_sort"), tasks_path(sort_expired: "true"), class: 'btn btn-default' %>
   <% #= link_to t("view.priority_sort"), tasks_path(sort_expired: "true"), class: 'btn btn-default' %>
   <table class="table table-striped col-md-11">
