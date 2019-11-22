@@ -44,6 +44,6 @@
 6. `heroku run rails db:migrate`でherokuサーバー上でマイグレーション実行
 
 7. herokuとGitHubを連携し、masterが更新されたらherokuに自動デプロイされるよう設定
-  - dashboard→アプリ名選択→Deployで、Deployment methodでGitHubを選択し、App connected to GitHubで該当するGitHub上のリポジトリを紐づける
+    - dashboard→アプリ名選択→Deployで、Deployment methodでGitHubを選択し、App connected to GitHubで該当するGitHub上のリポジトリを紐づける
 
-  - Automatic deploysを有効にする
+    - Automatic deploysを有効にする
