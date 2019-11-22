@@ -1,12 +1,13 @@
-<h1>新規タスク登録</h1>
+<h1><%= t('view.new_task_register') %></h1>
 <%= form_with(model: @task, local: true) do |f| %>
+  <%= render 'layouts/error_messages', model: f.object %>
   <div class="field">
-    <%= f.label :task_name, 'タスク名称' %><br>
+    <%= f.label :task_name %><br>
     <%= f.text_field :task_name %><br>
-    <%= f.label :task_content, 'タスク詳細' %><br>
+    <%= f.label :task_content %><br>
     <%= f.text_area :task_content %><br>
   </div>
   <div>
-    <%= f.submit "登録" %>
+    <%= f.submit t('view.register') %>
   </div>
 <% end %>
