@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
   before_action :set_params, only: %i[show edit destroy update]
+  before_action :login_check
 
   def index
     @q = Task.ransack(params[:q]) #この記述がないとviewで@qが未定義エラーでる
