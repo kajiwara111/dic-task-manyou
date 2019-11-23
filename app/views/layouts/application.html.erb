@@ -8,7 +8,27 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
+  <header>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class='navbar-header'>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarEexample1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+    			<p class="navbar-brand">TaskManager</p>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarEexample1">
+          <ul class="nav navbar-nav ml-8">
+            <li class='nav-item'><%= link_to "新規タスク登録", new_task_path, class: 'nav-link' %></li>
+            <li class='nav-item'><%= link_to "タスク一覧", tasks_path, class: 'nav-link' %></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
   <body>
     <div class='flash'>
       <% flash.each do |key, value| %>
@@ -18,7 +38,3 @@
     <%= yield %>
   </body>
 </html>
-
-
-
-

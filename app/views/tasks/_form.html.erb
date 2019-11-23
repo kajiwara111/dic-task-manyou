@@ -1,0 +1,31 @@
+<%= form_with(model: task, local: true) do |f| %>
+  <%= render 'layouts/error_messages', model: f.object %>
+  <div class="form-group col-md-10">
+    <%= f.label :task_name %><br>
+    <%= f.text_field :task_name, class: 'form-control' %><br>
+    <%= f.label :task_content %><br>
+    <%= f.text_area :task_content, class: 'form-control' %><br>
+    <%= f.label :deadline %><br>
+    <div class='input-group date datetimepicker'>
+      <%= f.text_field :deadline, class: 'form-control', placeholder: 'YYYY/MM/DD hh:mm', class: 'form-control' %><br>
+      <span class="input-group-addon">
+        <span class="fa fa-calendar"></span>
+      </span>
+    </div>
+    <div>
+      <% #下記label部分は:stateと記載しても日本語表示にならない。ja.ymlにstate二箇所あるから？ %>
+      <%= f.label t("view.state") %><br>
+      <% #t()の中身はja.ymlで定義した階層 %>
+      <%= f.select :state, Task.states.keys.map {|k| [I18n.t("enums.task.state.#{k}"), k]}, class: 'form-control' %></td>
+    </div>
+    <div>
+      <%= f.label t("view.priority") %><br>
+      <% #t()の中身はja.ymlで定義した階層 %>
+      <%= f.select :priority, Task.priorities.keys.map {|k| [I18n.t("enums.task.priority.#{k}"), k]}, class: 'form-control' %></td>
+    </div>
+    <% action_name == 'edit' ? btn_str = t('view.update') : btn_str = t('view.register') %>
+    <div>
+      <%= f.submit btn_str %>
+    </div>
+  </div>
+<% end %>
