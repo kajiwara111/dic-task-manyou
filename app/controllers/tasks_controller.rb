@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
   before_action :set_params, only: %i[show edit destroy update]
   before_action :login_check
+  before_action :user_check, only: i[show edit] #ログイン中ユーザー以外の詳細、編集画面にアクセス不可とする処理
 
   def index
     current_user_tasks = current_user.tasks
