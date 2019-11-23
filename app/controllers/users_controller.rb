@@ -1,9 +1,16 @@
 class UsersController < ApplicationController
+  #ログインしてなければshow, edit画面には遷移させない
   before_action :login_check, only: %i[show edit]
+
+  #ログイン中のユーザー以外のshow, edit表示させない
   before_action :user_check, only: %i[show edit]
 
   def new
-    @user = User.new
+    if logged_in? #ログインしている場合、新規ユーザー登録画面には遷移しないよう設定
+      redirect_to tasks_path
+    else
+      @user = User.new
+    end
   end
 
   def create
