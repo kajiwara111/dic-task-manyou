@@ -19,4 +19,9 @@ module SessionsHelper
     @user = User.find(params[:id])
     redirect_to tasks_path unless current_user.id == @user.id
   end
+
+  # 渡されたユーザーでログインする
+  def log_in(user)
+    session[:user_id] = user.id
+  end
 end

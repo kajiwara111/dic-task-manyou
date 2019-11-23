@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :login_check, only: %i[show edit]
-  before_action :user_check, only: i[show edit]
+  before_action :user_check, only: %i[show edit]
 
   def new
     @user = User.new
@@ -9,7 +9,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      flash[:success] = "新規ユーザーを登録しました"
+      log_in @user #ユーザー登録と同時にログイン
+      flash[:success] = "新規ユーザーを登録し、ログインしました"
+      redirect_to tasks_path
     else
       flash.now[:alert] = "ユーザー登録に失敗しました。"
       render :new
