@@ -12,7 +12,30 @@ ja:
     task_detail: タスク詳細
     delete_confirm: 本当に削除してよいですか？
     task_edit: タスクの編集
-    update: 更新 
+    update: 更新
+    deadline: 終了期限
+    show_link: 詳細リンク
+    delete_link: タスク削除
+    update: 更新
+    state: ステータス
+    deadline_sort: 終了期限で並び替える
+    priority: 優先順位
+    sort_type_1: 期限の近いタスク
+    sort_type_2: 優先順位の高いタスク
+    do_sort: 選択した条件でソートする
+
+  enums:
+    task:
+      state:
+        not_yet_started: 未着手
+        in_progress: 着手中
+        finished: 完了
+      priority:
+        low: 低
+        middle: 中
+        high: 高
+
+
   activerecord:
     errors:
       messages:

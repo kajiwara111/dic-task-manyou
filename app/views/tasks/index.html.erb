@@ -1,20 +1,65 @@
-<h1><%= t('view.task_overview') %></h1>
-<table class="task_table">
-  <th>
-    <%= t('view.task_name') %>
-  </th>
-  <th>
-    <%= t('view.registerd_datetime') %>
-  </th>
-  <% @tasks.each.with_index(1) do |task, index| %>
-    <tr class="task_list" id=<%= "task_no" + index.to_s %> >
-      <td><%= task.task_name %></td>
-      <td><%= task.created_at %></td>
-      <td><%= link_to t('view.detail'), task_path(task.id) %></td>
-      <td><%= link_to t('view.delete'), task_path(task.id), method: :delete, data: { confirm: t('view.delete_confirm')} %></td>
-    </tr>
-  <% end %>
-</table>
-<div>
-  <%= link_to t('view.new_task_register'), new_task_path %>
+<div class="container">
+  <h2><%= t('view.task_overview') %></h1>
+  <div class="form-group">
+    <%= search_form_for @q do |f| %>
+      <%= f.label :task_name_cont %>
+      <%= f.search_field :task_name_cont, class: "form-control" %>
+      <%= f.label :state %>
+      <% #= f.collection_select :state_eq, Task.select(:state).distinct, :id, :state_i18n, include_blank: '指定なし', class: "form-control" %>
+      <% #= f.select :state, Task.states.keys.map {|k| [I18n.t("enums.task.state.#{k}"), k]}, class: 'form-control' %>
+      <% #= 下記注意！ _eqというマッチャーを忘れてstateが検索対象にカウントされなかった %>
+      <%= f.select :state_eq, Task.states.map{|k, v| [Task.states_i18n[k], v]}, include_blank: '指定なし', class: 'form-control' %>
+      <%= f.submit %>
+    <% end %>
+  </div>
+  <div class="form-group">
+    <% #モデルに紐づかずソートに関するパラメータだけを送るform %>
+    <%= form_with(url: tasks_path, method: :get, local: true) do |form| %>
+      <%= form.radio_button :sort_type, 1, id: 'sort_type_1' %>
+      <%= form.label :deadline, t("view.sort_type_1"), {value: :deadline, style: "display: inline-block;"} %>
+      <%= form.radio_button :sort_type, 2, id: "sort_type_2" %>
+      <%= form.label :priority, t("view.sort_type_2"), {value: :priority, style: "display: inline-block;"} %>
+      <%= form.submit t("view.do_sort") %>
+    <% end %>
+  </div>
+  <div>
+      <%= paginate @tasks %>
+  </div>
+  <p><%= page_entries_info @tasks %></p>
+
+  <% #= link_to t("view.deadline_sort"), tasks_path(sort_expired: "true"), class: 'btn btn-default' %>
+  <% #= link_to t("view.priority_sort"), tasks_path(sort_expired: "true"), class: 'btn btn-default' %>
+  <table class="table table-striped col-md-11">
+    <th class="col-md-4">
+      <%= t('view.task_name') %>
+    </th>
+    <th class="col-md-2">
+      <%= t('view.registerd_datetime') %>
+    </th>
+    <th class="col-md-2">
+      <%= t('view.deadline') %>
+    </th>
+    <th class="col-md-2">
+      <%= t('view.state') %>
+    </th>
+    <th class="col-md-1">
+      <%= t('view.priority') %>
+    </th>
+    <th class="col-md-1"></th>
+    <th class="col-md-1"></th>
+    <% @tasks.each.with_index(1) do |task, index| %>
+      <tr class="task_list" id=<%= "task_no" + index.to_s %> >
+        <td><%= task.task_name %></td>
+        <td><%= task.created_at.strftime('%Y/%m/%d %H:%M') %></td>
+        <td><%= task.deadline %></td>
+        <td><%= task.state_i18n %></td>
+        <td><%= task.priority_i18n %></td>
+        <td><%= link_to t('view.detail'), task_path(task.id), class: 'btn btn-default' %></td>
+        <td><%= link_to t('view.delete'), task_path(task.id), method: :delete, data: { confirm: t('view.delete_confirm')}, class: 'btn btn-default' %></td>
+      </tr>
+    <% end %>
+  </table>
+  <div>
+    <%= link_to t('view.new_task_register'), new_task_path, class: 'btn btn-default' %>
+  </div>
 </div>

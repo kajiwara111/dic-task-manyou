@@ -2,7 +2,16 @@ class TasksController < ApplicationController
   before_action :set_params, only: %i[show edit destroy update]
 
   def index
-    @tasks = Task.all.order(id: 'DESC')
+    @q = Task.ransack(params[:q]) #この記述がないとviewで@qが未定義エラーでる
+    if params[:q]
+      @tasks = @q.result(distinct: true).page(params[:page])
+    elsif params[:sort_type] == "1"
+      @tasks = Task.all.order(deadline: 'ASC').page(params[:page])
+    elsif params[:sort_type] == "2"
+      @tasks = Task.all.order(priority: 'DESC').page(params[:page])
+    else
+      @tasks = Task.all.order(created_at: 'DESC').page(params[:page])
+    end
   end
   
   def new
@@ -13,7 +22,7 @@ class TasksController < ApplicationController
     @task = Task.new(task_params)
     if @task.save
       flash[:success] = '新規タスクを登録しました'
-      redirect_to task_path(@task.id)
+      redirect_to tasks_path
     else
       flash.now[:danger] = "タスクの登録に失敗しました"
       render :new
@@ -42,7 +51,14 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:task_name, :task_content)
+    params
+      .require(:task).permit(
+        :task_name,
+        :task_content,
+        :deadline,
+        :state,
+        :priority
+    )
   end
 
   def set_params
