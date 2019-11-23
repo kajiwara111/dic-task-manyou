@@ -3,15 +3,17 @@ class TasksController < ApplicationController
   before_action :login_check
 
   def index
-    @q = Task.ransack(params[:q]) #この記述がないとviewで@qが未定義エラーでる
+    current_user_tasks = current_user.tasks
+    #@q = Task.ransack(params[:q]) #この記述がないとviewで@qが未定義エラーでる
+    @q = current_user_tasks.ransack(params[:q])
     if params[:q]
       @tasks = @q.result(distinct: true).page(params[:page])
     elsif params[:sort_type] == "1"
-      @tasks = Task.all.order(deadline: 'ASC').page(params[:page])
+      @tasks = current_user_tasks.order(deadline: 'ASC').page(params[:page])
     elsif params[:sort_type] == "2"
-      @tasks = Task.all.order(priority: 'DESC').page(params[:page])
+      @tasks = current_user_tasks.order(priority: 'DESC').page(params[:page])
     else
-      @tasks = Task.all.order(created_at: 'DESC').page(params[:page])
+      @tasks = current_user_tasks.order(created_at: 'DESC').page(params[:page])
     end
   end
   
