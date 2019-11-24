@@ -1,33 +1,37 @@
-<h1>ユーザー一覧</h1>  <div>
-<%= link_to t('view.new_user_register'), new_admin_user_path, class: 'btn btn-default' %>
-<div>
-  <%= paginate @users %>
-</div>
-<p><%= page_entries_info @users %></p>
+<div class="container-fluid">
+  <h2>ユーザー一覧</h2>
+  <%= link_to t('view.new_user_register'), new_admin_user_path, class: 'btn btn-default' %>
+  <div>
+    <%= paginate @users %>
+  </div>
+  <p><%= page_entries_info @users %></p>
 
-<table class="table table-striped col-md-11">
-  <th class="col-md-4">
-    <%= t("activerecord.attributes.user.name") %>
-  </th>
-  <th class="col-md-2">
-    <%= t("activerecord.attributes.user.email") %>
-  </th>
-  <th class="col-md-2">
-    <%= t("view.num_of_task") %>
-  </th>
-  <th class="col-md-2">
-    <%= t("view.admin_or_not") %>
-  </th>
-  <th class="col-md-1"></th>
-  <th class="col-md-1"></th>
-  <% @users.each.with_index(1) do |user, index| %>
-    <tr class="task_list" id=<%= "user_no" + index.to_s %> >
-      <td><%= user.name %></td>
-      <td><%= user.email %></td>
-      <td><%= @tasks[user.id]? @tasks[user.id] : 0  %></td>
-      <td><%= user.admin? ? t("view.admin") : t("view.not_admin") %></td>
-      <td><%= link_to t('view.edit'), edit_admin_user_path(user.id), class: 'btn btn-default' %></td>
-      <td><%= link_to t('view.delete'), admin_user_path(user.id), method: :delete, data: { confirm: t('view.delete_confirm')}, class: 'btn btn-default' %></td>
-    </tr>
-  <% end %>
-</table>
+  <table class="table table-striped col-md-11">
+    <th class="col-md-2">
+      <%= t("activerecord.attributes.user.name") %>
+    </th>
+    <th class="col-md-2">
+      <%= t("activerecord.attributes.user.email") %>
+    </th>
+    <th class="col-md-2">
+      <%= t("view.num_of_task") %>
+    </th>
+    <th class="col-md-2">
+      <%= t("view.admin_or_not") %>
+    </th>
+    <th class="col-md-1"></th>
+    <th class="col-md-1"></th>
+    <th class="col-md-1"></th>
+    <% @users.each.with_index(1) do |user, index| %>
+      <tr class="task_list" id=<%= "user_no" + index.to_s %> >
+        <td><%= user.name %></td>
+        <td><%= user.email %></td>
+        <td><%= @tasks[user.id]? @tasks[user.id] : 0  %></td>
+        <td><%= user.admin? ? t("view.admin") : t("view.not_admin") %></td>
+        <td><%= link_to t('view.detail'), admin_user_path(user.id), class: 'btn btn-default' %></td>
+        <td><%= link_to t('view.edit'), edit_admin_user_path(user.id), class: 'btn btn-default' %></td>
+        <td><%= link_to t('view.delete'), admin_user_path(user.id), method: :delete, data: { confirm: t('view.delete_confirm')}, class: 'btn btn-default' %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>

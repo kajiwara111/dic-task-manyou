@@ -38,6 +38,7 @@ class Admin::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @tasks = @user.tasks.order(created_at: 'DESC').page(params[:page])
   end
   
   def edit

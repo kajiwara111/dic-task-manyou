@@ -1,1 +1,35 @@
-<h1><%= @user.name %>さんの管理ページ</h1>
+<div class="container-fluid">
+  <h1><%= @user.name %>さんのタスク一覧</h1>
+  <div>
+    <%= paginate @tasks %>
+  </div>
+  <div>
+    <%= page_entries_info @tasks %>
+  </div>
+  <table class="table table-striped col-md-11">
+  <th class="col-md-4">
+    <%= t('view.task_name') %>
+  </th>
+  <th class="col-md-2">
+    <%= t('view.registerd_datetime') %>
+  </th>
+  <th class="col-md-2">
+    <%= t('view.deadline') %>
+  </th>
+  <th class="col-md-2">
+    <%= t('view.state') %>
+  </th>
+  <th class="col-md-1">
+    <%= t('view.priority') %>
+  </th>
+  <% @tasks.each.with_index(1) do |task, index| %>
+    <tr class="task_list" id=<%= "task_no" + index.to_s %> >
+      <td><%= task.task_name %></td>
+      <td><%= task.created_at.strftime('%Y/%m/%d %H:%M') %></td>
+      <td><%= task.deadline %></td>
+      <td><%= task.state_i18n %></td>
+      <td><%= task.priority_i18n %></td>
+      </tr>
+  <% end %>
+  </table>
+</div>
