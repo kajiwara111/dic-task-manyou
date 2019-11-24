@@ -6,31 +6,35 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-
-50.times do |n|
+300.times do |n|
   task_name  = "task#{n}"
   task_content = "タスク内容#{n}"
   deadline = Faker::Time.between(from: DateTime.now + 1, to: DateTime.now + 30).strftime("%Y/%m/%d %H:%M")
   created_at = Faker::Time.between(from: DateTime.now - 10, to: DateTime.now)
   state = rand(0..2)
   priority = rand(0..2)
+  user_id = rand(23..33)
   Task.create!(task_name:  task_name,
                task_content: task_content,
                deadline: deadline,
                created_at: created_at,
                state: state,
-               priority: priority
+               priority: priority,
+               user_id: user_id
                )
 end
 
-5.times do |n|
+=begin
+10.times do |n|
   name  = "user#{n}"
   email = Faker::Internet.email
   password = 'password'
+  #admin = false デフォルトをfalseで設定しているので、これなくてもfalseが設定される。これを入れてcreateするとnot null制約のエラーになる。
   User.create!(name:  name,
                email: email,
                password: password,
-               password_confirmation: password,
+               password_confirmation: password
                )
 end
 
+=end
