@@ -27,6 +27,7 @@ ja:
     not_admin: 一般ユーザー
     admin_or_not: 管理者 or 一般ユーザー
     admin_auth: 管理者権限
+    new_user_register: 新規ユーザー登録
 
   enums:
     task:

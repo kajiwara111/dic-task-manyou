@@ -20,12 +20,12 @@ class Admin::UsersController < ApplicationController
     #end
   end
 
+  #管理者として自分以外の他ユーザーを新規登録
   def create
     @user = User.new(user_params)
     if @user.save
-      log_in @user #ユーザー登録と同時にログイン
-      flash[:success] = "新規ユーザーを登録し、ログインしました"
-      redirect_to tasks_path
+      flash[:success] = "新規ユーザーとして#{@user.name}さんを登録しました"
+      redirect_to admin_users_path
     else
       flash.now[:alert] = "ユーザー登録に失敗しました。"
       render :new
@@ -53,7 +53,18 @@ class Admin::UsersController < ApplicationController
   end
 
   def destroy
-
+    @user = User.find(params[:id])
+    isLoginUser = (@user.id == current_user.id)
+    if @user.destroy #before_destroyの結果で条件分岐。管理ユーザー一人しかいない場合、削除不可
+      if isLoginUser #ログインユーザー自身のアカウントを削除した場合はログアウト
+        redirect_to new_session_path, notice: "あなたのアカウントを削除してログアウトしました"
+      else
+        redirect_to admin_users_path, notice: "ユーザー#{@user.name}さんを削除しました"
+      end
+    else 
+      flash[:alert] = '管理ユーザーが一人しかいないためこのユーザーを削除できません'
+      redirect_to admin_users_path
+    end
   end
 
   private
@@ -67,5 +78,4 @@ class Admin::UsersController < ApplicationController
       :admin
     )
   end
-  
 end

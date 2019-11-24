@@ -1,5 +1,7 @@
 <h1>ユーザー一覧</h1>  <div>
-<%= paginate @users %>
+<%= link_to t('view.new_user_register'), new_admin_user_path, class: 'btn btn-default' %>
+<div>
+  <%= paginate @users %>
 </div>
 <p><%= page_entries_info @users %></p>
 

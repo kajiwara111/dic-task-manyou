@@ -1,2 +1,30 @@
-<h1>Admin::Users#new</h1>
-<p>Find me in app/views/admin/users/new.html.erb</p>
+<div class="container-fluid">
+  <h1><%= t("view.new_user_register") %></h1>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this @user from being saved:</h2>
+      <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <%= form_with(model: @user, local: true, url: admin_users_path) do |f| %>
+        <%= f.label :name %>
+        <%= f.text_field :name, class: "form-control" %>
+        <%= f.label :email %>
+        <%= f.text_field :email, class: "form-control" %>
+        <%= f.label :password %>
+        <%= f.password_field :password, class: "form-control" %>
+        <%= f.label :password_confirmation %>
+        <%= f.password_field :password_confirmation, class: "form-control" %>
+        <div class="form-group">
+          <%= f.label t("view.admin_auth") %>
+          <%= f.select :admin, User.admins.keys.map {|k| [I18n.t("enums.user.admin.#{k}"), k]}, class: 'form-control' %></td>
+        </div>
+        <%= f.submit "登録する", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
