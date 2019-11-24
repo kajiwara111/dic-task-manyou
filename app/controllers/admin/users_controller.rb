@@ -10,6 +10,10 @@ class Admin::UsersController < ApplicationController
 
   def index
     @users = User.all.order(admin: 'DESC').page(params[:page]) #管理者を上位表示
+    #各ユーザーごとのタスク数をハッシュで取得
+    #{user_id: タスク数}の形で取得されている
+    #@tasks[user.id]でそのユーザーのタスク数取得できる
+    @tasks = Task.all.includes(:user).group(:user_id).count 
   end
   
   def new
