@@ -1,4 +1,17 @@
-<h1><%= @user.name %>さんのページ</h1>
-<div class="btn btn-default", id="prof_show_link">
-  <%= link_to 'プロフィールの編集はこちら', edit_user_path(@user.id) %>
+<div class="container">
+  <h2><%= @user.name %>さんのページ</h2>
+  <div class="btn btn-default", id="prof_show_link">
+    <%= link_to 'プロフィールの編集はこちら', edit_user_path(@user.id) %>
+  </div>
+  <h3><%= t('view.user_info') %></h1>
+  <table class="table table-bordered col-md-8">
+    <tr>
+      <th class="col-md-2"><%= t('activerecord.attributes.user.name') %></td>
+      <td class="col-md-6"><%= @user.name %></td>
+    </tr>
+    <tr>
+      <th class="col-md-2"><%= t('activerecord.attributes.user.email') %></td>
+      <td class="col-md-6"><%= @user.email %></td>
+    </tr>
+  </table>
 </div>
