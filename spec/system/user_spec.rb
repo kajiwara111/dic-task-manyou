@@ -7,7 +7,7 @@ RSpec.describe User, type: :system do
   let!(:user3) { FactoryBot.create(:user3) }
   let!(:user4) { FactoryBot.create(:user4) }
 
-  describe 'ログイン機能' do
+  describe 'ログインしてない場合のアクセスコントロール機能' do
     context 'ログインせずにタスク一覧ページにアクセスする場合' do
       it 'ログインページにリダイレクトすること' do
         visit tasks_path
@@ -23,20 +23,31 @@ RSpec.describe User, type: :system do
         expect(page).to have_content 'Log in'
       end
     end
+  end
 
-    context 'ログインする場合' do
+  describe 'ログイン・ログアウト機能' do
+    before do
+      visit new_session_path
+      fill_in 'メールアドレス', with: 'user1@gmail.com'
+      fill_in 'パスワード', with: 'password'
+      click_on 'Log in'
+    end
+ 
+    context 'ログインした場合' do
       it 'タスク一覧ページが表示されること' do
-        visit new_session_path
-        fill_in 'メールアドレス', with: 'user1@gmail.com'
-        fill_in 'パスワード', with: 'password'
-        click_on 'Log in'
         expect(page).to have_content 'タスク一覧'
+      end
+    end
+ 
+    context 'ログアウトした場合' do
+      it 'ログインページに遷移すること' do
+        click_on 'Logout'
+        expect(page).to have_content 'Log in'
       end
     end
   end
 
-  describe 'ユーザー管理機能' do
-    
+  describe 'ユーザー管理機能' do    
     before do
       visit new_session_path
       fill_in 'メールアドレス', with: login_user.email #login_userはしたの階層で定義されている。
@@ -171,99 +182,4 @@ RSpec.describe User, type: :system do
     end
   end
 end
-=begin
 
-
-  describe 'タスクのCRUD機能検証' do
-    before do
-      #user3でログイン
-      #let (:login_user) { user1 }
-      visit new_session_path
-      fill_in 'メールアドレス', with: 'user3@gmail.com'
-      fill_in 'パスワード', with: 'password'
-      click_on 'Log in'  
-    end
-
-    it 'タスク登録、詳細、編集、削除の一連の処理が正しく動作すること' do
-      #新規タスク登録が正しく動作すること
-      visit new_task_path
-      fill_in 'タスク名', with: 'test_task'
-      fill_in 'タスク詳細', with: 'test_task_detail'
-      fill_in '期限', with: '2019/12/20 06:00'
-      select '着手中', from: 'task_state' #ブラウザの検証画面からselectタグに指定されているidを調べて指定した
-      select '高', from: 'task_priority'
-      click_on '登録'
-      expect(page).to have_content 'test_task'
-      expect(page).to have_content '2019/12/20 06:00'
-      expect(page).to have_content '着手中'
-      expect(page).to have_content '高'
-    
-
-      #詳細画面に遷移した時に、タスク詳細が正しく表示されていること
-      within('#task_no1') do
-        click_on '詳細'
-      end 
-      expect(page).to have_content 'test_task'
-      expect(page).to have_content 'test_task_detail'
-      expect(page).to have_content '2019/12/20 06:00'
-      expect(page).to have_content '着手中'
-      expect(page).to have_content '高'
-
-      #編集機能が正しく動作すること
-      click_on '編集'
-      fill_in 'タスク名', with: 'test_task_edit'
-      fill_in 'タスク詳細', with: 'test_task_detail_edit'
-      fill_in '期限', with: '2019/12/30 06:00'
-      select '完了', from: 'task_state' #ブラウザの検証画面からselectタグに指定されているidを調べて指定した
-      select '中', from: 'task_priority'
-      click_on '更新'
-      expect(page).to have_content 'test_task_edit'
-      expect(page).to have_content '2019/12/30 06:00'
-      expect(page).to have_content '完了'
-      expect(page).to have_content '中'
-
-      #削除機能が正しく動作すること
-      within('#task_no1') do
-        click_on '削除'
-      end      
-      page.driver.browser.switch_to.alert.accept
-      expect(page).to have_content "タスクを削除しました"
-      
-      #active recordで検索結果、レコード存在しない場合は空の配列が戻り値になる
-      expect(Task.where(task_name: 'test_task_edit').empty?).to be true
-    end
-
-    describe 'タスクとユーザー機能との関係性検証' do
-      before do
-        @task_user1 = FactoryBot.create(:task, user: @user1)
-        @task_user2 = FactoryBot.create(:second_task, user: @user2)
-        @task_user3 = FactoryBot.create(:third_task, user: @user3)
-        @task_user4 = FactoryBot.create(:fourth_task, user: @user4)  
-
-        #user3でログイン
-        visit new_session_path
-        fill_in 'メールアドレス', with: 'user3@gmail.com'
-        fill_in 'パスワード', with: 'password'
-        click_on 'Log in'  
-      end
-      
-      context 'タスク一覧画面にアクセスした場合' do
-        it '他ユーザーのタスクが表示されないこと' do
-          expect(page).not_to have_content 'task1'
-          expect(page).not_to have_content 'task2'
-          expect(page).not_to have_content 'task4'
-          expect(page).to have_content 'task3'
-        end
-      end
-
-      context '他ユーザーのタスク詳細、編集ページにアクセスしようとした場合' do
-        it 'タスク一覧画面にリダイレクトされること' do
-          visit task_path(@task_user1.id)
-          expect(page).to have_content 'タスク一覧'
-        end
-      end
-    end
-  end
-end
-
-=end
