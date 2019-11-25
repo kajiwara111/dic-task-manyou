@@ -27,4 +27,13 @@ FactoryBot.define do
     state { 0 }
     priority { 0 }
   end 
+
+  factory :fourth_task, class: Task do
+    task_name { 'task4' }
+    task_content { 'task_content4' }
+    created_at { Time.now + 10.days }
+    deadline {'2020/01/05 10:00'}
+    state { 0 }
+    priority { 0 }
+  end 
 end

@@ -8,11 +8,11 @@ class TasksController < ApplicationController
     #@q = Task.ransack(params[:q]) #この記述がないとviewで@qが未定義エラーでる
     @q = current_user_tasks.ransack(params[:q])
     if params[:q]
-      @tasks = @q.result(distinct: true).page(params[:page])
+      @tasks = @q.result(distinct: true).order(created_at: 'DESC').page(params[:page])
     elsif params[:sort_type] == "1"
-      @tasks = current_user_tasks.order(deadline: 'ASC').page(params[:page])
+      @tasks = current_user_tasks.order(deadline: 'ASC').order(created_at: 'DESC').page(params[:page])
     elsif params[:sort_type] == "2"
-      @tasks = current_user_tasks.order(priority: 'DESC').page(params[:page])
+      @tasks = current_user_tasks.order(priority: 'DESC').order(created_at: 'DESC').page(params[:page])
     else
       @tasks = current_user_tasks.order(created_at: 'DESC').page(params[:page])
     end
