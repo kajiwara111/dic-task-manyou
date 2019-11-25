@@ -137,7 +137,7 @@ RSpec.describe User, type: :system do
     end
   end
     
-  describe 'アクセスコントロール機能' do
+  describe 'ログイン時のアクセスコントロール機能' do
     let!(:user1) { FactoryBot.create(:user) }
     let!(:user2) { FactoryBot.create(:user2) }
     let!(:user3) { FactoryBot.create(:user3) }
