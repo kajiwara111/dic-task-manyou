@@ -10,6 +10,8 @@ class Task < ApplicationRecord
 
   #association
   belongs_to :user
+  has_many :labellings, dependent: :destroy
+  has_many :labels, through: :labellings, source: :label
 
   #検索に使用できるカラムを制限
   def self.ransackable_attributes(auth_object = nil)
