@@ -19,6 +19,6 @@ class Task < ApplicationRecord
   end
 
   def self.ransackable_associations(auth_object=nil)
-    []
+    %w[labels] #ここにアソシエーション名追加しておかないとエラーになる
   end
 end

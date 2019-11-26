@@ -31,6 +31,8 @@ ja:
     user_info: ユーザー情報
     num_of_task: タスク数
     label: ラベル
+    search_label: ラベル名が以下と等しい
+    search_state: ステータスが以下と等しい
 
   enums:
     task:

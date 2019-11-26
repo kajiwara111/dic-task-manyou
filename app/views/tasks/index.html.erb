@@ -2,14 +2,26 @@
   <h2><%= t('view.task_overview') %></h1>
   <div class="form-group">
     <%= search_form_for @q do |f| %>
-      <%= f.label :task_name_cont %>
-      <%= f.search_field :task_name_cont, class: "form-control" %>
-      <%= f.label :state %>
-      <% #= f.collection_select :state_eq, Task.select(:state).distinct, :id, :state_i18n, include_blank: '指定なし', class: "form-control" %>
-      <% #= f.select :state, Task.states.keys.map {|k| [I18n.t("enums.task.state.#{k}"), k]}, class: 'form-control' %>
-      <% #= 下記注意！ _eqというマッチャーを忘れてstateが検索対象にカウントされなかった %>
-      <%= f.select :state_eq, Task.states.map{|k, v| [Task.states_i18n[k], v]}, include_blank: '指定なし', class: 'form-control' %>
-      <%= f.submit %>
+      <div class="form-group">
+        <%= f.label :task_name_cont %>
+        <%= f.search_field :task_name_cont, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label t("view.search_state") %>
+        <% #= f.collection_select :state_eq, Task.select(:state).distinct, :id, :state_i18n, include_blank: '指定なし', class: "form-control" %>
+        <% #= f.select :state, Task.states.keys.map {|k| [I18n.t("enums.task.state.#{k}"), k]}, class: 'form-control' %>
+        <% #= 下記注意！ _eqというマッチャーを忘れてstateが検索対象にカウントされなかった %>
+        <%= f.select :state_eq, Task.states.map{|k, v| [Task.states_i18n[k], v]}, include_blank: '指定なし', class: 'form-control' %>
+      </div>
+      <div class="form-group">
+        <% #ransackのアソシエーション。今回は@qをTaskモデルで作成しているのでTaskモデルのhas_manyに関連付けられているlabelsでラベルパラメータ送れる %>
+        <%= f.label t("view.search_label") %>
+        <%= f.select :labels_name_eq, Label.all.pluck(:name), include_blank: '指定なし', class: 'form-control' %>
+        <% #f.select :labels_name_eq, Label.all.map{|label| label.name}, include_blank: '指定なし', class: 'form-control' %>
+      </div>
+      <div class="action">
+        <%= f.submit %>
+      </div>
     <% end %>
   </div>
   <div class="form-group">
