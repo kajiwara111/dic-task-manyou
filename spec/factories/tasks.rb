@@ -6,6 +6,7 @@ FactoryBot.define do
     deadline {'2019/12/18 18:00'}
     state { 1 }
     priority { 1 }
+    association :user, factory: :user
   end
 
   # 作成するテストデータの名前を「second_task」とします
@@ -17,6 +18,7 @@ FactoryBot.define do
     deadline {'2019/12/20 10:00'}
     state { 2 }
     priority { 2 }
+    association :user, factory: :user2
   end 
 
   factory :third_task, class: Task do
@@ -26,6 +28,7 @@ FactoryBot.define do
     deadline {'2020/01/03 10:00'}
     state { 0 }
     priority { 0 }
+    association :user, factory: :user3
   end 
 
   factory :fourth_task, class: Task do
@@ -35,5 +38,6 @@ FactoryBot.define do
     deadline {'2020/01/05 10:00'}
     state { 0 }
     priority { 0 }
+    association :user, factory: :user4
   end 
 end

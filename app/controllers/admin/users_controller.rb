@@ -47,6 +47,11 @@ class Admin::UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
+    if User.where(admin: true).count == 1 and user_params[:admin] == "not_admin"
+      flash.now[:alert] = '管理ユーザーが一人しか存在しないため権限を変更できません'
+      render :edit
+      return false #コールバックで使ったthrow(:abort)だとエラーになる。
+    end
     if @user.update(user_params)
       #binding.pry
       flash[:notice] = "#{@user.name}さんのアカウント情報を更新しました"
