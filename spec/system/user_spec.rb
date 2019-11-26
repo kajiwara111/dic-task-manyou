@@ -112,7 +112,7 @@ RSpec.describe User, type: :system do
     end
 
     describe 'ユーザー削除機能' do
-      context '管理者としてログインした場合' do
+      context '一般ユーザーを削除する場合' do
         let(:login_user) { user1 }
         it 'ユーザーが削除され、該当ユーザーのタスクも削除されていること' do
           #user4のタスクを作成しておく
@@ -134,14 +134,44 @@ RSpec.describe User, type: :system do
           expect(Task.where(task_name: 'task4').empty?).to be true
         end
       end
+
+      context '別の管理者ユーザーを削除する場合' do
+        #user1, user2の2名が管理者
+        let(:login_user) { user1 }
+        it '指定した管理者ユーザーが削除されること' do
+          click_on 'ユーザー管理画面'
+          #user2を削除
+          within('#user_no2') do
+            click_on '削除'
+          end
+          page.driver.browser.switch_to.alert.accept
+          expect(page).to have_content "ユーザーuser2さんを削除しました"
+          expect(User.where(name: 'user2').empty?).to be true
+        end
+      end
+
+      context '管理者が自分１名しかいない時に自分自身を削除する場合' do #コールバックが正しく動作するか検証するテスト
+        #user1, user2の2名が管理者
+        let(:login_user) { user1 }
+        it 'ユーザーが削除されないこと' do
+          click_on 'ユーザー管理画面'
+          #まずuser2を削除
+          within('#user_no2') do
+            click_on '削除'
+          end
+          page.driver.browser.switch_to.alert.accept
+
+          within('#user_no1') do
+            click_on '削除'
+          end
+          page.driver.browser.switch_to.alert.accept
+          expect(User.where(name: 'user1').empty?).to be false
+        end
+      end
     end
   end
     
   describe 'ログイン時のアクセスコントロール機能' do
-    let!(:user1) { FactoryBot.create(:user) }
-    let!(:user2) { FactoryBot.create(:user2) }
-    let!(:user3) { FactoryBot.create(:user3) }
-    let!(:user4) { FactoryBot.create(:user4) }
     
     let!(:task_user1) { FactoryBot.create(:task, user: user1) }
     let!(:task_user2) { FactoryBot.create(:second_task, user: user2) }
