@@ -30,6 +30,7 @@ ja:
     new_user_register: 新規ユーザー登録
     user_info: ユーザー情報
     num_of_task: タスク数
+    label: ラベル
 
   enums:
     task:
