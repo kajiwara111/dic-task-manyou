@@ -27,17 +27,39 @@ RSpec.describe Task, type: :system do
   end
 
   describe '新規タスク登録機能' do
-    context '必要項目を入力して新規タスク登録した場合' do
-      it 'タスク一覧画面に新規登録したタスクが表示されること' do
+    context '新規タスク登録した場合の一覧画面' do
+      it 'タスク一覧画面に新規登録したタスクについてタスク名、タスク詳細、期限が正しく表示されていること' do
         visit new_task_path
         fill_in 'タスク名', with: 'specタスク'
         fill_in 'タスク詳細', with: 'specによるテスト演習'
         fill_in '期限', with: '2019/12/10 10:00'
+        check 'test_label1'
+        check 'test_label3'
         click_button '登録'
         expect(page).to have_content 'タスク一覧'
         expect(page).to have_content 'specタスク'
         expect(page).to have_content '2019/12/10 10:00'
       end
+    end
+
+    context '新規タスク登録した場合のタスク詳細画面' do
+      it 'タスク一覧画面に新規登録した情報がすべて表示されていること' do
+        visit new_task_path
+        fill_in 'タスク名', with: 'specタスク'
+        fill_in 'タスク詳細', with: 'specによるテスト演習'
+        fill_in '期限', with: '2019/12/10 10:00'
+        check 'test_label1'
+        check 'test_label2'
+        click_button '登録'
+        within('#task_no5') do #FactoryBotで事前作成しているタスクはすべて未来の作成日時。降順ソートされるので、新規作成タスクは5番目
+          click_on '詳細'
+        end        
+        expect(page).to have_content 'specタスク'
+        expect(page).to have_content 'specによるテスト演習'
+        expect(page).to have_content '2019/12/10 10:00'
+        expect(page).to have_content 'test_label1'
+        expect(page).to have_content 'test_label2'
+      end    
     end
   end
 
@@ -51,13 +73,14 @@ RSpec.describe Task, type: :system do
         expect(page).to have_content 'タスク詳細'
         expect(page).to have_content 'task4'
         expect(page).to have_content 'task_content4'
+        expect(page).to have_content 'test_label4'
       end
     end
   end
 
   describe 'タスク編集機能' do
-    context 'タスクを編集した場合' do
-      it 'タスクが編集内容通りに更新されること' do
+    context 'タスクを編集して一覧画面を表示した場合' do
+      it 'タスク一覧画面に編集内容が反映されていること' do
         visit tasks_path
         within('#task_no1') do
           click_on '詳細'
@@ -68,9 +91,9 @@ RSpec.describe Task, type: :system do
         fill_in '期限', with: '2019/12/30 06:00'
         select '完了', from: 'task_state' #ブラウザの検証画面からselectタグに指定されているidを調べて指定した
         select '中', from: 'task_priority'
+        check 'test_label3'
         click_on '更新'
         
-        #更新後、タスク一覧画面で更新内容が反映されていればOK
         expect(page).to have_content 'タスク一覧'
         expect(page).to have_content 'task4_edit'
         expect(page).to have_content '2019/12/30 06:00'
@@ -78,6 +101,34 @@ RSpec.describe Task, type: :system do
         expect(page).to have_content '中'
       end
     end
+
+    context 'タスクを編集して編集したタスクの詳細画面を表示した場合' do
+      it 'タスク詳細画面に編集内容が反映されていること' do
+        visit tasks_path
+        within('#task_no1') do
+          click_on '詳細'
+        end
+        click_on '編集'
+        fill_in 'タスク名', with: 'task4_edit'
+        fill_in 'タスク詳細', with: 'task_content4_edit'
+        fill_in '期限', with: '2019/12/30 06:00'
+        select '完了', from: 'task_state' #ブラウザの検証画面からselectタグに指定されているidを調べて指定した
+        select '中', from: 'task_priority'
+        check 'test_label3'
+        click_on '更新'
+        
+        within('#task_no1') do
+          click_on '詳細'
+        end
+        expect(page).to have_content 'タスク詳細'
+        expect(page).to have_content 'task4_edit'
+        expect(page).to have_content '2019/12/30 06:00'
+        expect(page).to have_content '完了'
+        expect(page).to have_content '中'
+        expect(page).to have_content 'test_label3'
+        expect(page).to have_content 'test_label4'
+      end
+    end    
   end
 
   describe 'タスク削除機能' do
@@ -163,17 +214,42 @@ RSpec.describe Task, type: :system do
       end
     end
 
-    context 'タスク名かつステータスで検索した場合' do
-      it '検索結果のタスク名、ステータスが検索対象のもののみの表示になっていること' do
+    context 'ラベル名で検索した場合' do
+      it '検索結果に表示されたタスクのラベル名が検索したラベル名を含んでいること' do
+        visit tasks_path
+        #find('label[for=期限の近いタスク]').click
+        select "test_label2", from: 'q_labels_name_eq' #q_state_eqはransackによって自動割り当てされたid ブラウザ上でHTML確認して気づいた
+        click_on '検索'
+        num_tasks = all('.task_list').length #検索結果のタスク数取得
+        
+        #検索結果のすべてのタスクの詳細画面を確認し、検索に使用したラベル名が含まれているか確認
+        num_tasks.times {|n|
+          within("#task_no#{n + 1}") do
+            click_on '詳細'
+          end
+          expect(page).to have_content 'test_label2'
+        }
+      end
+    end
+
+    context 'タスク名、ステータス、ラベル名でAND検索した場合' do
+      it '検索結果のタスク名、ステータス、ラベル名が検索対象のもののみの表示になっていること' do
         visit tasks_path
         fill_in 'q_task_name_cont', with: '2' #ラベル名「期限の近いタスク」だとElementsNotFoundでエラーになる
         select "完了", from: 'q_state_eq'
         click_on '検索'
-        tasks = all('.task_list')
-        for task in tasks do
-          expect(task).to have_content '2'
-          expect(task).to have_content '完了'
-        end
+
+        num_tasks = all('.task_list').length #検索結果のタスク数取得
+        
+        #検索結果のすべてのタスクの詳細画面を確認し、期待する検索結果と一致すること確認
+        num_tasks.times {|n|
+          within("#task_no#{n + 1}") do
+            click_on '詳細'
+          end
+          expect(page).to have_content '2'
+          expect(page).to have_content '完了'
+          expect(page).to have_content 'test_label2'
+        }
       end
     end
   end
