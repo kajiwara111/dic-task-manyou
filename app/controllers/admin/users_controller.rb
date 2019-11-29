@@ -9,7 +9,7 @@ class Admin::UsersController < ApplicationController
   before_action :check_admin
 
   def index
-    @users = User.all.order(admin: 'DESC').page(params[:page]) #管理者を上位表示
+    @users = User.all.order(admin: 'DESC').order(name: 'ASC').page(params[:page]) #管理者,ユーザー名でソートして表示
     #各ユーザーごとのタスク数をハッシュで取得
     #{user_id: タスク数}の形で取得されている
     #@tasks[user.id]でそのユーザーのタスク数取得できる
