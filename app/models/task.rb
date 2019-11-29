@@ -8,6 +8,9 @@ class Task < ApplicationRecord
   enum state: %i[not_yet_started in_progress finished]
   enum priority: %i[low middle high]
 
+  #association
+  belongs_to :user
+
   #検索に使用できるカラムを制限
   def self.ransackable_attributes(auth_object = nil)
     %w[task_name state]

@@ -22,8 +22,18 @@
         </div>
         <div class="collapse navbar-collapse" id="navbarEexample1">
           <ul class="nav navbar-nav ml-8">
-            <li class='nav-item'><%= link_to "新規タスク登録", new_task_path, class: 'nav-link' %></li>
-            <li class='nav-item'><%= link_to "タスク一覧", tasks_path, class: 'nav-link' %></li>
+            <% if logged_in? %>
+              <li class='nav-item'><%= link_to "新規タスク登録", new_task_path, class: 'nav-link' %></li>
+              <li class='nav-item'><%= link_to "タスク一覧", tasks_path, class: 'nav-link' %></li>
+              <li class='nav-item'><%= link_to "Logout", session_path(current_user.id), method: :delete, class: 'nav-link' %></li>
+              <li class='nav-item'><%= link_to "プロフィール", user_path(current_user.id), class: 'nav-link' %></li>
+              <% if current_user.admin? %>
+                <li class='nav-item'><%= link_to "ユーザー管理画面", admin_users_path, class: 'nav-link' %></li>
+              <% end %>
+            <% else %>  
+              <li class='nav-item'><%= link_to "Sign up", new_user_path, class: 'nav-link' %></li>
+              <li class='nav-item'><%= link_to "Login", new_session_path, class: 'nav-link' %></li>
+            <% end %>    
           </ul>
         </div>
       </div>
