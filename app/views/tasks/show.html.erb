@@ -2,28 +2,32 @@
   <h3><%= t('view.task_detail') %></h1>
   <table class="table table-bordered col-md-8">
     <tr>
-      <th class="col-md-2"><%= t('view.task_name') %></td>
+      <th class="col-md-2"><%= t('view.task_name') %></th>
       <td class="col-md-6"><%= @task.task_name %></td>
     </tr>
     <tr>
-      <th class="col-md-2"><%= t('view.task_detail') %></td>
+      <th class="col-md-2"><%= t('view.task_detail') %></th>
       <td class="col-md-6"><%= @task.task_content %></td>
     </tr>
     <tr>
-      <th class="col-md-2"><%= t('view.registerd_datetime') %></td>
+      <th class="col-md-2"><%= t('view.registerd_datetime') %></th>
       <td class="col-md-6"><%= @task.created_at.strftime('%Y/%m/%d %H:%M') %></td>
     </tr>
     <tr>
-      <th class="col-md-2"><%= t('view.deadline') %></td>
+      <th class="col-md-2"><%= t('view.deadline') %></th>
       <td class="col-md-6"><%= @task.deadline %></td>
     </tr>
     <tr>
-      <th class="col-md-2"><%= t('view.state') %></td>
+      <th class="col-md-2"><%= t('view.state') %></th>
       <td class="col-md-6"><%= @task.state_i18n %></td>
     </tr>
     <tr>
-      <th class="col-md-2"><%= t('view.priority') %></td>
+      <th class="col-md-2"><%= t('view.priority') %></th>
       <td class="col-md-6"><%= @task.priority_i18n %></td>
+    </tr>
+    <tr>
+      <th class="col-md-2"><%= t('view.label') %></th>
+      <td class="col-md-6"><%= @task.labels.map{|label| label.name}.join(' ') %></td>
     </tr>
   </table>
   <%= link_to t('view.edit'), edit_task_path(@task.id), class: 'btn btn-default' %> 

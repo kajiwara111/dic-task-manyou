@@ -12,19 +12,22 @@
         <span class="fa fa-calendar"></span>
       </span>
     </div>
-    <div>
+    <div class="form-group">
       <% #下記label部分は:stateと記載しても日本語表示にならない。ja.ymlにstate二箇所あるから？ %>
       <%= f.label t("view.state") %><br>
       <% #t()の中身はja.ymlで定義した階層 %>
       <%= f.select :state, Task.states.keys.map {|k| [I18n.t("enums.task.state.#{k}"), k]}, class: 'form-control' %></td>
     </div>
-    <div>
+    <div class="form-group">
       <%= f.label t("view.priority") %><br>
       <% #t()の中身はja.ymlで定義した階層 %>
       <%= f.select :priority, Task.priorities.keys.map {|k| [I18n.t("enums.task.priority.#{k}"), k]}, class: 'form-control' %></td>
     </div>
+    <div class="form-group">
+      <%= f.collection_check_boxes(:label_ids, Label.all, :id, :name, class: 'form-control') %>
+    </div>
     <% action_name == 'edit' ? btn_str = t('view.update') : btn_str = t('view.register') %>
-    <div>
+    <div class="form-group">
       <%= f.submit btn_str %>
     </div>
   </div>
