@@ -32,7 +32,7 @@ end
 group :test do
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
-  gem 'chromedriver-helper'
+  #gem 'chromedriver-helper'
   gem 'webdrivers'
 end
 
@@ -43,3 +43,4 @@ gem 'enum_help'
 gem 'ransack'
 gem 'faker'
 gem 'kaminari'
+gem 'bcrypt', '3.1.11'

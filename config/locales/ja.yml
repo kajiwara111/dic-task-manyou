@@ -23,6 +23,13 @@ ja:
     sort_type_1: 期限の近いタスク
     sort_type_2: 優先順位の高いタスク
     do_sort: 選択した条件でソートする
+    admin: 管理者
+    not_admin: 一般ユーザー
+    admin_or_not: 管理者 or 一般ユーザー
+    admin_auth: 管理者権限
+    new_user_register: 新規ユーザー登録
+    user_info: ユーザー情報
+    num_of_task: タスク数
 
   enums:
     task:
@@ -34,6 +41,10 @@ ja:
         low: 低
         middle: 中
         high: 高
+    user:
+      admin:
+        admin: 管理者
+        not_admin: 一般ユーザー
 
 
   activerecord:
@@ -53,10 +64,11 @@ ja:
         task_content: タスク詳細
         deadline: 期限
       user:
-        name: 名前
+        name: ユーザー名
         email: メールアドレス
         password: パスワード
         password_confirmation: 確認用パスワード
+        admin: 管理者
       label:
         label: ラベル
   date:
