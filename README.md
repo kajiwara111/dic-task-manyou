@@ -45,5 +45,6 @@
 
 7. herokuとGitHubを連携し、masterが更新されたらherokuに自動デプロイされるよう設定
     - dashboard→アプリ名選択→Deployで、Deployment methodでGitHubを選択し、App connected to GitHubで該当するGitHub上のリポジトリを紐づける
-
+    
     - Automatic deploysを有効にする
+

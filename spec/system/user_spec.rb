@@ -82,7 +82,7 @@ RSpec.describe User, type: :system do
           click_on 'ユーザー管理画面'
 
           #テストデータuser3の詳細ページに正しく遷移すること確認
-          within('#user_no3') do
+          within('tr#user_no3') do
             click_on '詳細'
           end
           expect(page).to have_content "#{user3.name}さんのタスク一覧"
@@ -97,13 +97,13 @@ RSpec.describe User, type: :system do
           click_on 'ユーザー管理画面'
           
           #テストデータuser3の編集ページへ遷移
-          within('#user_no3') do
+          within('tr#user_no3') do
             click_on '編集'
           end
           fill_in 'ユーザー名', with: 'user33'
           select '管理者', from: 'user_admin' #HTML上でid確認した    
           click_on '更新する'
-          within('#user_no3') do
+          within('tr#user_no3') do
             expect(page).to have_content "user33"
             expect(page).to have_content "管理者"
           end
@@ -141,7 +141,7 @@ RSpec.describe User, type: :system do
         it '指定した管理者ユーザーが削除されること' do
           click_on 'ユーザー管理画面'
           #user2を削除
-          within('#user_no2') do
+          within('tr#user_no2') do
             click_on '削除'
           end
           page.driver.browser.switch_to.alert.accept
@@ -156,12 +156,12 @@ RSpec.describe User, type: :system do
         it 'ユーザーが削除されないこと' do
           click_on 'ユーザー管理画面'
           #まずuser2を削除
-          within('#user_no2') do
+          within('tr#user_no2') do
             click_on '削除'
           end
           page.driver.browser.switch_to.alert.accept
 
-          within('#user_no1') do
+          within('tr#user_no1') do
             click_on '削除'
           end
           page.driver.browser.switch_to.alert.accept
